@@ -14,52 +14,108 @@ namespace ClassLibrary1.Implementations
 {
     class LiquidBLL : ILiquidBLL
     {
-        public static int StrToInt(string str)
+        public int StrToInt(string str)
         {
-            var regex = new Regex(@"^\s*(?<n>\d+)\s+", RegexOptions.Compiled);
-            var result = int.Parse(regex.Match(str).Value);
-            return result;
+            var regex = new Regex(@"\d+", RegexOptions.Compiled);
+            return int.Parse(regex.Match(str).Value);
         }
-        public ICollection<Liquid> Parse()
+        public double StrToDouble(string str)
         {
-            ICollection<Liquid> liqs = new List<Liquid>();
-            //УБРАТЬ
-            var products = new List<Liquid>();
-            try
-            {
-                //Прописываем user-agent. Без него выкидывает 403
-                var client = new WebClient();
-                client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                //Открываем страницу
-                var entrypage = client.OpenRead("http://папироска.рф/category/zhidkosti-dlya-elektronnykh-sigaret/");
-                //Парсим
-                var parsedentrypage = new HtmlParser().Parse(entrypage);
+            var regex = new Regex(@"\d*\,?\d+", RegexOptions.Compiled);
+            return Convert.ToDouble(regex.Match(str).Value);
+        }
+        public ICollection<Liquid> Parser()
+        {
+            //Прописываем user-agent. Без него дропает 403
+            var client = new WebClient();
+            client.Headers.Add("user-agent",
+                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            //Открываем страницу
+            var streamforparse =
+                client.OpenRead("http://xn--80aaxitdbjk.xn--p1ai/category/zhidkosti-dlya-elektronnykh-sigaret/");
+            //Парсим
+            var entrypage = new HtmlParser().Parse(streamforparse);
 
-                //Собираем все объекты класса product
-                var productsonpage = parsedentrypage.QuerySelectorAll(".product");
+            var liqs = new List<Liquid>();
 
-                foreach (var variable in productsonpage)
+            //Получаем общее кол-во страниц с товаром
+            var pagecount = 
+                StrToInt(
+                    entrypage.QuerySelector(".pagination").GetElementsByTagName("li")[3].QuerySelector("a")
+                    .InnerHtml);
+
+                for (var i = 26; i < pagecount + 1; i++)
                 {
-                    var price = StrToInt(variable.QuerySelector(".price").InnerHtml);
+                    client.Headers.Set("user-agent",
+                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                    streamforparse =
+                        client.OpenRead(
+                            "http://xn--80aaxitdbjk.xn--p1ai/category/zhidkosti-dlya-elektronnykh-sigaret/?page=" + i);
+                    entrypage = new HtmlParser().Parse(streamforparse);
+                    //Собираем все объекты класса product
+                    var productsonpage = entrypage.QuerySelectorAll(".product");
+                    //Парсим продукты на одной странице
+                    foreach (var variable in productsonpage)
+                    {
+                        string name, link;
+                        int price;
+                        bool availability, strengthindicated, amountindicated;
+                        var strength = new List<double>();
+                        var amount = new List<int>();
+                        
+                        //Парсинг основной странице
+                        var priceraw = variable.QuerySelector(".price");
+                        if (priceraw != null)
+                        {
+                            availability = true;
+                            price = StrToInt(priceraw.InnerHtml);
+                        }
+                        else
+                        {
+                            price = 0;
+                            availability = false;
+                        }
+                        var selector = variable.QuerySelector(".pr-title");
+                        link = "http://xn--80aaxitdbjk.xn--p1ai" + selector.QuerySelector("a").GetAttribute("href");
+                        name = selector.QuerySelector("a").GetAttribute("title");
+                        //Парсинг сабстраницы
+                        client.Headers.Set("user-agent",
+                            "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                        var subpage = client.OpenRead(link);
+                        var parsedsubpage = new HtmlParser().Parse(subpage);
 
-                    var selector = variable.QuerySelector(".pr-title");
+                        //Парсим доступные значения крепости
+                        var strengthtexist = parsedsubpage.GetElementsByName("features[5]");
 
-                    var link = selector.QuerySelector("a").GetAttribute("href");
+                        if (strengthtexist.Length == 0)
+                            strengthindicated = false;
+                        else
+                        {
+                            var setofstrengtht =
+                                parsedsubpage.GetElementsByName("features[5]")[0].QuerySelectorAll("option");
+                            strengthindicated = true;
+                            strength.AddRange(setofstrengtht.Select(var1 => StrToDouble(var1.InnerHtml)));
+                        }
 
-                    var name = selector.QuerySelector("a").GetAttribute("title");
+                        //Парсим доступные значения объема
+                        var amountexist = parsedsubpage.GetElementsByName("features[3]");
 
-                    var subpage = client.OpenRead("http://папироска.рф" + link);
-                    var parsedsubpage = new HtmlParser().Parse(subpage);
+                        if (amountexist.Length == 0)
+                            amountindicated = false;
+                        else
+                        {
+                            var setofamount =
+                                parsedsubpage.GetElementsByName("features[3]")[0].QuerySelectorAll("option");
+                            amountindicated = true;
+                            amount.AddRange(setofamount.Select(var1 => StrToInt(var1.InnerHtml)));
+                        }
+                        //Закрываем поток сабстраницы
+                        subpage?.Close();
 
-                    var sel = parsedsubpage.QuerySelector(".option");
-
-                    products.Add(new Liquid(price, name, link, null));
+                        liqs.Add(new Liquid(amountindicated, strengthindicated, link, name, availability, price, strength, amount));
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+
             return liqs;
         }
     }

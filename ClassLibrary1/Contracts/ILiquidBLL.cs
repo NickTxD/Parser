@@ -9,6 +9,6 @@ namespace ClassLibrary1.Contracts
 {
     public interface ILiquidBLL
     {
-        ICollection<Liquid> Parse();
+        ICollection<Liquid> Parser();
     }
 }
