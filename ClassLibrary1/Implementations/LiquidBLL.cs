@@ -7,10 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp.Parser.Html;
-using ClassLibrary1.Contracts;
+using Parser.Contracts;
 using Parser;
 
-namespace ClassLibrary1.Implementations
+namespace Parser.Implementations
 {
     class LiquidBLL : ILiquidBLL
     {
@@ -58,12 +58,13 @@ namespace ClassLibrary1.Implementations
                     foreach (var variable in productsonpage)
                     {
                         string name, link;
-                        int price;
+                        int article, price;
                         bool availability, strengthindicated, amountindicated;
                         var strength = new List<double>();
                         var amount = new List<int>();
                         
                         //Парсинг основной странице
+                        article = StrToInt(variable.QuerySelector(".article").InnerHtml);
                         var priceraw = variable.QuerySelector(".price");
                         if (priceraw != null)
                         {
@@ -112,7 +113,7 @@ namespace ClassLibrary1.Implementations
                         //Закрываем поток сабстраницы
                         subpage?.Close();
 
-                        liqs.Add(new Liquid(amountindicated, strengthindicated, link, name, availability, price, strength, amount));
+                        liqs.Add(new Liquid(article, amountindicated, strengthindicated, link, name, availability, price, strength, amount));
                     }
                 }
 

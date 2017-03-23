@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ClassLibrary1.Contracts;
-using ClassLibrary1.Implementations;
+using Parser.Contracts;
+using Parser.Implementations;
 using Ninject.Modules;
+using Parser.DAL;
 
 namespace BLLModule
 {
@@ -14,6 +15,7 @@ namespace BLLModule
         public override void Load()
         {
             Bind<ILiquidBLL>().To<LiquidBLL>();
+            Bind<IRepository>().To<Repository>();
         }
     }
 }

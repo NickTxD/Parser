@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Parser;
 
-namespace Parser.Contracts
+namespace Parser.DAL
 {
-    public interface ILiquidBLL
+    public interface IRepository
     {
-        ICollection<Liquid> Parser();
+        Liquid GetLiquidByGuid(Guid id);
+        Liquid Save(Liquid liquid);
     }
 }

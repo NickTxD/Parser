@@ -8,6 +8,9 @@ namespace Parser
 {
     public class Liquid
     {
+        public Guid Id { get; set; }
+
+        public int Article { get; }
         public int Price { get; }
         public bool Availability { get; }
         public string Name { get; }
@@ -17,8 +20,9 @@ namespace Parser
         public bool AmountIndicated { get; }
         public List<int> Amount { get; }
 
-        public Liquid(bool amountIndicated, bool strengthIndicated, string link, string name, bool availability, int price, List<double> strength, List<int> amount)
+        public Liquid(int article, bool amountIndicated, bool strengthIndicated, string link, string name, bool availability, int price, List<double> strength, List<int> amount)
         {
+            Article = article;
             AmountIndicated = amountIndicated;
             StrengthIndicated = strengthIndicated;
             Link = link;
@@ -28,6 +32,7 @@ namespace Parser
             Strength = strength;
             Amount = amount;
         }
+
     }
 
 }
