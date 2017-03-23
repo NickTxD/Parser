@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Parser.DAL\Parser.DAL.csproj">
+      <Project>{fa44ac88-7ddc-4c77-a96b-e80509eb194a}</Project>
+      <Name>Parser.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Parser\Parser.Domain.csproj">
       <Project>{43f42a7f-d560-4add-93f0-7cac8236e1b7}</Project>
       <Name>Parser.Domain</Name>

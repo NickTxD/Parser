@@ -69,10 +69,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Parser.BLL.csproj">
-      <Project>{224c77de-475e-4bd0-b6c4-5c507fafdbf6}</Project>
-      <Name>Parser.BLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Parser\Parser.Domain.csproj">
       <Project>{43f42a7f-d560-4add-93f0-7cac8236e1b7}</Project>
       <Name>Parser.Domain</Name>

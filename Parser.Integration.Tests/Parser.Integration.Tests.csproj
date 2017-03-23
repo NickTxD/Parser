@@ -60,6 +60,20 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Parser.BLL.csproj">
+      <Project>{224c77de-475e-4bd0-b6c4-5c507fafdbf6}</Project>
+      <Name>Parser.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Parser.DAL\Parser.DAL.csproj">
+      <Project>{fa44ac88-7ddc-4c77-a96b-e80509eb194a}</Project>
+      <Name>Parser.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Parser\Parser.Domain.csproj">
+      <Project>{43F42A7F-D560-4ADD-93F0-7CAC8236E1B7}</Project>
+      <Name>Parser.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

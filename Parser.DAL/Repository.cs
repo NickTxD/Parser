@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Parser.DAL.Entities;
 
 namespace Parser.DAL
@@ -54,9 +50,7 @@ namespace Parser.DAL
                 result.Id = Guid.NewGuid();
                 context.Liquids.Add(result);
             }
-            var model = result.MapToModel();
-
-            return model;
+           return result.MapToModel();
         }
     }
 }

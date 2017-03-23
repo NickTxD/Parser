@@ -1,19 +1,29 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using AngleSharp.Parser.Html;
 using Parser.Contracts;
-using Parser;
+using Parser.DAL;
 
 namespace Parser.Implementations
 {
-    class LiquidBLL : ILiquidBLL
+    public class LiquidBLL : ILiquidBLL
     {
+        private readonly IRepository _repository;
+
+        public LiquidBLL(IRepository repository)
+        {
+            this._repository = repository;
+        }
+
+        public Liquid CreateNew(int article, bool amountIndicated, bool strengthIndicated, string link, string name, bool availability, int price, List<double> strength, List<int> amount)
+        {
+            var result = new Liquid(article, amountIndicated, strengthIndicated, link, name, availability, price, strength, amount);
+            return this._repository.Save(result);
+        }
+
         public int StrToInt(string str)
         {
             var regex = new Regex(@"\d+", RegexOptions.Compiled);
@@ -26,13 +36,15 @@ namespace Parser.Implementations
         }
         public ICollection<Liquid> Parser()
         {
+            const string mainpagelink = "http://xn--80aaxitdbjk.xn--p1ai";
+            const string liquidspagelink = "/category/zhidkosti-dlya-elektronnykh-sigaret/";
             //Прописываем user-agent. Без него дропает 403
             var client = new WebClient();
             client.Headers.Add("user-agent",
                 "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
             //Открываем страницу
             var streamforparse =
-                client.OpenRead("http://xn--80aaxitdbjk.xn--p1ai/category/zhidkosti-dlya-elektronnykh-sigaret/");
+                client.OpenRead(mainpagelink+liquidspagelink);
             //Парсим
             var entrypage = new HtmlParser().Parse(streamforparse);
 
@@ -44,13 +56,13 @@ namespace Parser.Implementations
                     entrypage.QuerySelector(".pagination").GetElementsByTagName("li")[3].QuerySelector("a")
                     .InnerHtml);
 
-                for (var i = 26; i < pagecount + 1; i++)
+                for (var i = 1; i < pagecount + 1; i++)
                 {
                     client.Headers.Set("user-agent",
                         "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     streamforparse =
-                        client.OpenRead(
-                            "http://xn--80aaxitdbjk.xn--p1ai/category/zhidkosti-dlya-elektronnykh-sigaret/?page=" + i);
+                        client.OpenRead(mainpagelink+
+                            liquidspagelink+"?page=" + i);
                     entrypage = new HtmlParser().Parse(streamforparse);
                     //Собираем все объекты класса product
                     var productsonpage = entrypage.QuerySelectorAll(".product");
@@ -77,7 +89,7 @@ namespace Parser.Implementations
                             availability = false;
                         }
                         var selector = variable.QuerySelector(".pr-title");
-                        link = "http://xn--80aaxitdbjk.xn--p1ai" + selector.QuerySelector("a").GetAttribute("href");
+                        link = mainpagelink + selector.QuerySelector("a").GetAttribute("href");
                         name = selector.QuerySelector("a").GetAttribute("title");
                         //Парсинг сабстраницы
                         client.Headers.Set("user-agent",
@@ -112,8 +124,10 @@ namespace Parser.Implementations
                         }
                         //Закрываем поток сабстраницы
                         subpage?.Close();
-
-                        liqs.Add(new Liquid(article, amountindicated, strengthindicated, link, name, availability, price, strength, amount));
+                        
+                        var temp = new Liquid(article, amountindicated, strengthindicated, link, name, availability, price, strength, amount);
+                        temp = this._repository.Save(temp);
+                        liqs.Add(temp);
                     }
                 }
 
