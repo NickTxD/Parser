@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Parser.DAL.Entities;
+using Parser.Domain;
 
 namespace Parser.DAL
 {

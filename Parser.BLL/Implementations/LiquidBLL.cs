@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using AngleSharp.Parser.Html;
-using Parser.Contracts;
+using Parser.BLL.Contracts;
 using Parser.DAL;
+using Parser.Domain;
 
-namespace Parser.Implementations
+namespace Parser.BLL.Implementations
 {
     public class LiquidBLL : ILiquidBLL
     {

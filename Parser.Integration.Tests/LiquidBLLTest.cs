@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Parser.BLL.Implementations;
 using Parser.DAL;
-using Parser.Implementations;
 
 namespace Parser.Integration.Tests
 {

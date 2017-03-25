@@ -71,16 +71,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Parser.BLL.csproj">
-      <Project>{224c77de-475e-4bd0-b6c4-5c507fafdbf6}</Project>
+    <ProjectReference Include="..\Parser.BLL\Parser.BLL.csproj">
+      <Project>{66aa2593-cbf1-425c-9599-6938eef825f5}</Project>
       <Name>Parser.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Parser.DAL\Parser.DAL.csproj">
       <Project>{fa44ac88-7ddc-4c77-a96b-e80509eb194a}</Project>
       <Name>Parser.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Parser\Parser.Domain.csproj">
-      <Project>{43F42A7F-D560-4ADD-93F0-7CAC8236E1B7}</Project>
+    <ProjectReference Include="..\Parser.Domain\Parser.Domain.csproj">
+      <Project>{5FDA8B51-4F0A-4505-8155-2E96F4E8F793}</Project>
       <Name>Parser.Domain</Name>
     </ProjectReference>
   </ItemGroup>

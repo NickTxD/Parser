@@ -69,8 +69,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Parser\Parser.Domain.csproj">
-      <Project>{43f42a7f-d560-4add-93f0-7cac8236e1b7}</Project>
+    <ProjectReference Include="..\Parser.Domain\Parser.Domain.csproj">
+      <Project>{5fda8b51-4f0a-4505-8155-2e96f4e8f793}</Project>
       <Name>Parser.Domain</Name>
     </ProjectReference>
   </ItemGroup>

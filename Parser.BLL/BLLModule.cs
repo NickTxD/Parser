@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Parser.Contracts;
-using Parser.Implementations;
-using Ninject.Modules;
+﻿using Ninject.Modules;
+using Parser.BLL.Contracts;
+using Parser.BLL.Implementations;
 using Parser.DAL;
 
-namespace BLLModule
+namespace Parser.BLL
 {
     public class BLLModule : NinjectModule
     {
