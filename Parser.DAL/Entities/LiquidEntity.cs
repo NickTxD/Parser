@@ -23,6 +23,7 @@ namespace Parser.DAL.Entities
 
         public LiquidEntity MaptoEntity(Liquid liquid)
         {
+            this.Id = liquid.Id;
             this.Article = liquid.Article;
             this.Price = liquid.Price;
             this.Availability = liquid.Availability;
@@ -40,7 +41,7 @@ namespace Parser.DAL.Entities
             var liquid = new Liquid(
                 this.Article, this.AmountIndicated, 
                 this.StrengthIndicated, this.Link, this.Name, 
-                this.Availability, this.Price, this.Strength, this.Amount);
+                this.Availability, this.Price, this.Strength, this.Amount) {Id = this.Id};
             return liquid;
         }
     }
