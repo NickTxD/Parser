@@ -94,7 +94,6 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="ParserService.svc" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -106,15 +105,19 @@
     <Compile Include="Interfaces\IParserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Parser.BLL\Parser.BLL.csproj">
