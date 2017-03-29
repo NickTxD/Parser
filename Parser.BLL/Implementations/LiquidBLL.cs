@@ -18,13 +18,11 @@ namespace Parser.BLL.Implementations
         {
             this._repository = repository;
         }
-
         public Liquid CreateNew(int article, bool amountIndicated, bool strengthIndicated, string link, string name, bool availability, int price, List<double> strength, List<int> amount)
         {
             var result = new Liquid(article, amountIndicated, strengthIndicated, link, name, availability, price, strength, amount);
             return this._repository.Save(result);
         }
-
         public int StrToInt(string str)
         {
             var regex = new Regex(@"\d+", RegexOptions.Compiled);
@@ -133,6 +131,16 @@ namespace Parser.BLL.Implementations
                 }
 
             return liqs;
+        }
+
+        public ICollection<Liquid> GetAll()
+        {
+            return this._repository.GetAllLiquids();
+        }
+
+        public Liquid GetById(Guid id)
+        {
+            return this._repository.GetLiquidByGuid(id);
         }
     }
 }

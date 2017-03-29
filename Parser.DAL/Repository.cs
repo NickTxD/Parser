@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Parser.DAL.Entities;
 using Parser.Domain;
@@ -12,6 +13,14 @@ namespace Parser.DAL
             using (var context = new ParserContext())
             {
                 return this.GetLiquidByGuid(id, context);
+            }
+        }
+
+        public ICollection<Liquid> GetAllLiquids()
+        {
+            using (var context = new ParserContext())
+            {
+                return context.Liquids.ToArray().Select(x => x.MapToModel()).ToArray();
             }
         }
 
@@ -53,5 +62,7 @@ namespace Parser.DAL
             }
            return result.MapToModel();
         }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Parser.Domain;
 
 namespace Parser.DAL
@@ -7,5 +8,6 @@ namespace Parser.DAL
     {
         Liquid GetLiquidByGuid(Guid id);
         Liquid Save(Liquid liquid);
+        ICollection<Liquid> GetAllLiquids();
     }
 }
