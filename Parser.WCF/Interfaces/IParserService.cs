@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using Parser.DTO.DTO;
+using Parser.DTO;
 
 namespace Parser.WCF.Interfaces
 {

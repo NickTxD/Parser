@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Parser.Domain;
 
-namespace Parser.DTO.DTO
+namespace Parser.DTO
 {
     [DataContract]
     public class LiquidDTO

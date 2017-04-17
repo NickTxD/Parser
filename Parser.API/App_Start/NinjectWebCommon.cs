@@ -1,9 +1,9 @@
 ﻿using Parser.BLL;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Example.API.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Example.API.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Parser.API.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Parser.API.App_Start.NinjectWebCommon), "Stop")]
 
-namespace Example.API.App_Start
+namespace Parser.API.App_Start
 {
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;

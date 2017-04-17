@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Parser.API.Filters;
 using Parser.BLL.Contracts;
-using Parser.DTO.DTO;
+using Parser.DTO;
 
 namespace Parser.API.Controllers
 {
@@ -23,11 +21,8 @@ namespace Parser.API.Controllers
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            return
-                this.Request.CreateResponse(
-                    this.liquidBLL.GetAll().Select(x => new LiquidDTO().MapFromModel(x)).ToArray());
+            return this.Request.CreateResponse(this.liquidBLL.GetAll().Select(x => new LiquidDTO().MapFromModel(x)).ToArray());
         }
-
         [HttpGet]
         public HttpResponseMessage Get(Guid id)
         {
