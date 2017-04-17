@@ -1,4 +1,5 @@
-﻿using Ninject.Modules;
+﻿using Ninject;
+using Ninject.Modules;
 using Parser.BLL.Contracts;
 using Parser.BLL.Implementations;
 using Parser.DAL;
