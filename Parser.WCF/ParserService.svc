@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Parser.WCF.ParserService" CodeBehind="ParserService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Parser.WCF.ParserService" CodeBehind="ParserService.svc.cs" Factory="Ninject.Extensions.Wcf.NinjectServiceHostFactory" %>
