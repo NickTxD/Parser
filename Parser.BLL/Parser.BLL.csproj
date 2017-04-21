@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BLLModule.cs" />
     <Compile Include="Contracts\ILiquidBLL.cs" />
+    <Compile Include="Grabber.cs" />
     <Compile Include="Implementations\LiquidBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

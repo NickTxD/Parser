@@ -9,6 +9,7 @@ namespace Parser.DAL
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<ParserContext>());
         }
+
         public DbSet<LiquidEntity> Liquids { get; set; }
     }
 
